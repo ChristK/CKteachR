@@ -127,7 +127,7 @@ download them from the links below.
 R looks like this. You type commands, you press enter, and R executes the
 commands.
 
-![R on Windows 10](./images/R screenshot.png){width=70%}
+![R on Windows 10](./images/R_screenshot.png){width=70%}
 
 ### RStudio
 
