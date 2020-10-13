@@ -1,0 +1,30 @@
+Package: CKteachR
+Title: Interactive Tutorials For R Beginners
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Chris",
+           family = "Kypridemos",
+           role = c("aut", "cre"),
+           email = "christodoulosk@gmail.com",
+           comment = c(ORCID = "0000-0002-0746-9229"))
+Description: This package contains tutorials for the students in the Master of Public Health programme at the University of Liverpool. (one paragraph).
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.5.0)
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+Imports: 
+    data.table (>= 1.13.0),
+    learnr (>= 0.10.1),
+    gradethis (>= 0.1.0),
+    googlesheets4 (>= 0.2.0),
+    submitr (>= 0.3.0.9000),
+    encryptr (>= 0.1.3),
+    rstudioapi (>= 0.11)
+Remotes: 
+    christk/submitr,
+    rstudio-education/gradethis,
+    tidyverse/googlesheets4
+    

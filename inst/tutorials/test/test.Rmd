@@ -1,0 +1,110 @@
+---
+title: Testing
+author: Chris Kypridemos
+date: October 2020
+output: 
+  learnr::tutorial:
+    id: "PHDL1-test"
+    version: 0.2
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: "Testing submitr"
+
+---
+
+```{r setup, include=FALSE}
+library(CKteachR)
+library(learnr)
+library(submitr) 
+library(googlesheets4) 
+library(gradethis) 
+knitr::opts_chunk$set(echo = FALSE)
+learnr::tutorial_options(
+  exercise.timelimit = 60, 
+  exercise.checker = gradethis::grade_learnr) 
+```
+
+```{r}
+submitr::login_controls()
+```
+
+
+
+```{r context = "server", echo = FALSE}
+# setup google sheets
+# read the 'service account token setup' https://gargle.r-lib.org/articles/get-api-credentials.html#service-account-token-1
+# read https://github.com/juampynr/google-spreadsheet-reader
+# for each new sheet remember to share with googledrive-docs@mph-teaching.iam.gserviceaccount.com
+
+
+options(tutorial.storage = "none")
+
+out <-
+  setup_progress_monitoring(
+    rstudioapi::getActiveProject(),
+    tools::file_path_sans_ext(basename(
+      rstudioapi::getSourceEditorContext()$path
+    )),
+    "15oXGGq0fgFL7kN3ZCcouhJhnIY_wJCDj3tPu6nyug-g",
+    "1YLZkrgLJJ0sGVXtkie30gpHdudzth-3dRUkUR_pQH0I",
+    "UoL.MPH.datalab@gmail.com"
+  )
+submitr::shiny_logic(input, output, session, out$vfun,
+                     out$storage_actions)
+```
+
+<!--End of submitr setup-->
+
+
+
+## Fixed-response questions
+
+```{r planets, echo=FALSE}
+learnr::question("Which planet do we live on?",
+         answer("Mars", correct = FALSE),
+         answer("Earth", correct = TRUE,  message = "Good job Earthling!"),
+         answer("Saturn",  correct = FALSE),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+
+## Hours in 2020
+Use the box below to calculate how many hours 2020 has. 
+
+```{r hours-in-2020, exercise=TRUE, exercise.cap="Graded", exercise.lines=5}
+
+```
+
+<div id="hours-in-2020-hint">
+**Hint:** Remember 2020 is a leap year (if you haven't noticed yet :-)) and it has 366 days. Each day has 24 hours. Therefore `366 * 24` should be the correct answer. 
+</div>
+
+
+
+```{r hours-in-2020-check}
+gradethis::grade_result(
+  fail_if( ~ .result != 8784, "Result should have been 366 * 24 = 8784"),
+  pass_if(~ TRUE, "Well done!"),
+  glue_correct = "{.message}"
+)
+```
+
+
+## Multiple selections in multiple choice
+
+```{r multiple-selections}
+learnr::question("Which of these are countries? (Select ALL that apply)",
+         answer("California", correct = FALSE),
+         answer("France", correct = TRUE, message = "Good job Earthling!"),  
+         answer("China",  correct = TRUE),
+         random_answer_order = TRUE,
+         allow_retry = TRUE,
+         options = list(foobar = "Flag")
+)
+```
+
+
+
