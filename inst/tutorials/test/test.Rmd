@@ -48,8 +48,8 @@ out <-
     "1YLZkrgLJJ0sGVXtkie30gpHdudzth-3dRUkUR_pQH0I",
     "UoL.MPH.datalab@gmail.com"
   )
-submitr::shiny_logic(input, output, session, out$vfun,
-                     out$storage_actions)
+
+submitr::shiny_logic(input, output, session, out$vfun, out$storage_actions)
 ```
 
 <!--End of submitr setup-->

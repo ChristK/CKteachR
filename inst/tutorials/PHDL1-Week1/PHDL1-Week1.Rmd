@@ -1,0 +1,177 @@
+---
+title: Introduction to R!
+author: Chris Kypridemos, Vincy Huang
+date: October 2020
+output: 
+  learnr::tutorial:
+    id: "week-1"
+    version: 0.2
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: "Welcome to learnr tutorials!"
+---
+
+```{=html}
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+```
+```{r setup, include=FALSE}
+library(learnr)
+library(submitr)
+library(googlesheets4)
+library(gradethis)
+knitr::opts_chunk$set(echo = FALSE)
+learnr::tutorial_options(
+  exercise.timelimit = 60, 
+  exercise.checker = 
+  gradethis::grade_learnr)
+```
+
+```{r}
+submitr::login_controls()
+```
+
+```{r context = "server", echo = FALSE}
+options(tutorial.storage = "none")
+
+out <-
+  setup_progress_monitoring(
+    rstudioapi::getActiveProject(),
+    "PHDL1_week1",
+    "15oXGGq0fgFL7kN3ZCcouhJhnIY_wJCDj3tPu6nyug-g",
+    "1niWt2nCC3cgKtMEpowFVTTlVHBCbVpJl1WK-uR4r6BU", # week 1 spreadsheet
+    "UoL.MPH.datalab@gmail.com"
+  )
+
+submitr::shiny_logic(input, output, session, out$vfun, out$storage_actions)
+```
+
+<!--End of submitr setup-->
+
+## Getting ready to use R
+
+### Logistics
+
+-   Learning R is like learning a foreign language. It may seem hard at first,
+    but in time allows you to immerse into a new exciting culture.
+
+-   If you feel that things don't make sense, don't worry. Everyone who uses R
+    (or any other programming language) has been there, and we still do
+    sometimes. Just ask your R-buddy or ask me!
+
+-   During the PH data lab session, feel free to interrupt me at any time.
+
+-   Some of the examples and exercises in this tutorial are inspired by a
+    tutorial by [Graeme L. Hickey](https://www.glhickey.com/)
+
+### What is R?
+
+Derives from a proprietary software package called 'S-Plus'
+
+-   "R is a free software programming language and software environment for
+    statistical computing and graphics" Wikipedia (2014)
+
+-   The "lingua franca of data analysts" The New York Times (2009)
+
+-   Used worldwide by epidemiologists, bioinformaticians, data scientists,
+    high-level statisticians, app developers, . . .
+
+### Why use R?
+
+-   Keep whole analysis together (data processing, analysis, publication
+    figures, reports)
+
+-   Reproducible research
+
+-   State of the art statistical methods are wrapped up in 'R packages'
+
+-   It is free and open-source
+
+-   It is used by many companies & institutions [including the UK
+    Government](https://dataingovernment.blog.gov.uk/2017/03/27/reproducible-analytical-pipeline/)
+
+### Objectives
+
+The primary objective is for you to be able to apply statistical functions
+available in R to your own data.
+
+To achieve this you should be able to:
+
+-   Understand the core concepts of R and its syntax
+
+-   Be able to read and write data files
+
+-   Be able to interrogate a dataset
+
+-   Be able to use functions and options
+    <!-- - Be able to write a simple function -->
+
+### How to install R?
+
+By now you you should all have received installation instructions. You can also
+download them from the links below.
+
+-   [For
+    Windows](https://u.pcloud.link/publink/show?code=XZSpMFXZLRt8rDdjvhJK5gofRP9AkymsrJik)
+-   [For
+    Mac](https://u.pcloud.link/publink/show?code=XZIpMFXZzrAQ2MDDye7hpT740VSto8tpbBsy)
+-   [For
+    Linux](https://u.pcloud.link/publink/show?code=XZipMFXZXz0MIzctx040fvaWIsT8tyVCdLT7)
+
+### R console
+
+R looks like this. You type commands, you press enter, and R executes the
+commands.
+
+![R on Windows 10](./images/R screenshot.png){width=70%}
+
+### RStudio
+
+RStudio is an integrated development environment (IDE) for R. That means that
+RStudio makes the experience working with R more comfortable and speeds-up the
+development time of R projects. So, one could use R without RStudio (or any
+other IDE) and achieve the same results. Still, most likely, the work would be
+more time-consuming and less enjoyable.
+
+We will deep into Rstudio in the coming weeks.
+
+### Why use R?
+
+```{r why-r, echo=FALSE}
+question("Why use R? (Select ALL that apply)",
+  answer("Allows reproducible research", correct = TRUE),
+  answer("Free & open-source", correct = TRUE),
+  answer("State of the art statistical methods", correct = TRUE),
+  answer("To complicate our lifes", message = "It may feel that is too complicated in the beginning, but eventually the experience becomes smoother."),
+  incorrect = "Incorrect. We use R because it offers state of the art statistical methods, it is free, and allows reproducible research.",
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+
+## R as a Calculator
+
+### Simple maths
+
+<!-- ```{r calculator-addition, eval= TRUE} -->
+<!-- 1 + 1 -->
+<!-- 13 * 17 -->
+<!-- ((6 * 7) + 4 - 7) / 2^8 -->
+<!-- ``` -->
+
+### Other 'numbers' to look out for
+
+Now, try to calculate 1/0, 0/0 and find out why it happened!
+
+```{r caculator-other, eval= TRUE}
+1/0
+-1/0
+0/0
+```
+
+<!-- If you see these, you have probably done something wrong! -->
