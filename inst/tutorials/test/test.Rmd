@@ -43,9 +43,7 @@ options(tutorial.storage = "none")
 out <-
   setup_progress_monitoring(
     rstudioapi::getActiveProject(),
-    tools::file_path_sans_ext(basename(
-      rstudioapi::getSourceEditorContext()$path
-    )),
+    "test",
     "15oXGGq0fgFL7kN3ZCcouhJhnIY_wJCDj3tPu6nyug-g",
     "1YLZkrgLJJ0sGVXtkie30gpHdudzth-3dRUkUR_pQH0I",
     "UoL.MPH.datalab@gmail.com"

@@ -5,7 +5,6 @@
 ^pkgdown$
 ^_pkgdown\.yml$
 ^\.github$
-^inst/tutorials/test/test\.Rmd$
 ^CKteachR\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$

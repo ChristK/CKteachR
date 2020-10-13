@@ -173,10 +173,13 @@ setup_progress_monitoring <-
 
       # create file with student credentials if not created before
       if (!file.exists(student_credential_path)) {
-        id <- rstudioapi::askForPassword("Please enter your name")
-        password <- rstudioapi::askForPassword("Please enter your password")
-        utils::write.csv(data.frame(id = id, password = password),
-                  student_credential_path, row.names = FALSE)
+        id_ <- rstudioapi::askForPassword("Please enter your name")
+        password_ <- rstudioapi::askForPassword("Please enter your password")
+        if (length(id_) > 0L && length(password_) > 0L) {
+          utils::write.csv(data.frame(id = id_, password = password_),
+                           student_credential_path,
+                           row.names = FALSE)
+        }
       }
 
       out$vfun <-
