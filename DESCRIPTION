@@ -26,5 +26,3 @@ Imports:
 Remotes: 
     christk/submitr,
     rstudio-education/gradethis,
-    tidyverse/googlesheets4
-    
