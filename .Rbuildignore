@@ -8,3 +8,4 @@
 ^CKteachR\.Rproj$
 ^\.Rproj\.user$
 ^data-raw$
+^id_rsa$

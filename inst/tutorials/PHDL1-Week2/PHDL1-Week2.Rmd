@@ -1,0 +1,87 @@
+---
+title: "<span style='font-size: 18px'>EPIDEMIOLOGY AND STATISTICS FOR PUBLIC HEALTH I"
+subtitle: "Introduction to fingertipsR"
+author: "Alexandros Alexiou"
+date: "21 October 2020"
+output: html_document
+---
+```{css, echo = F}
+pre code, pre, code {
+  white-space: pre !important;
+  overflow-x: auto;
+  word-break: keep-all !important;
+  word-wrap: initial !important;
+  max-height: 20vh !important;
+}
+```
+
+```{r setup, include=FALSE}
+options(width=1200)
+options(scipen = 4)
+# options(max.print=700)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+### The Fingertips data repository
+
+The fingertipsR library is useful tool developed by Public Health England to access Fingertips data within R directly. [Fingertips](https://fingertips.phe.org.uk/) is a major public repository of population and public health indicators for England. Unfortunately the site is sometimes *very* hard to navigate, especially if you want to download a specific dataset. Fortunately, this library makes this task much easier. 
+
+In the sections below I will show you briefly how to use the library in order to find and download data in R for further analysis. 
+
+### How to install the fingertipsR library
+
+Very briefly, libraries (also known as packages) are essentially a collection of functions that once loaded provide R with extra functionality, or just make your life easier - think of it as plugins, as you may have seen in other software. In order for them to work, you have to download them first. You only need to do this once. 
+
+Thankfully you can download and install libraries very easily within RStudio from the [Tools] menu, by going to Tools>Install Packages... and type in the search box "fingertipsR". Select it and click [Install].
+
+However, in order to use it in any given session who must tell R that we want to use the library *each time*. We can load the necessary library using the following code:
+
+```{r cars}
+# Load library
+library(fingertipsR)
+
+```
+
+### How to use fingertipsR
+
+The main function that we will use is the `fingertips_data()` function. This will download a data frame directly from Fingertips, based on our specifications. Note, this function can take up to a few minutes to run (depending on internet connection speeds and parameter selection). Here is an example of getting data about *Mortality rate from lung cancer* in England:
+
+```{r}
+# Get data
+fingertips_data(IndicatorID = 1203, AreaTypeID = 15)
+```
+
+In the example above the code *1203* indicates lung cancer mortality rate, and the area type code *15* indicates England (i.e. national data). If you are wondering how to find the necessary Fingertips codes for what you need, these two functions will help you:
+
+```{r, echo=T, eval=TRUE}
+# Available Indicators
+indicators()
+
+# Available Area Types
+area_types()
+```
+
+
+You can find the necessary codes from these two tables. An easy way of "eyeballing" the data within RStudio is by viewing the file using `View(indicators())`. When the table opens, click `filter` button at the top left, and within the textbox that appears above each column, type e.g. "lung cancer" above the *IndicatorName* column in order to search for it. You can do the same for `area_types()`. In this instance `IndicatorID=1203` returns data regarding *Mortality rate from lung cancer* and an `AreaTypeID=15` returns data for England.
+
+### How to download data for a specific place
+
+We can even download data for a specific place by adding the `AreaCode` within the function. That is the a code that the Office for National Statistics (ONS) uses when referring to a specific place. For instance, England has the code *"E92000001"* and Liverpool has the code *"E08000012"*.
+
+Here is an example of how to use `AreaCode` to download data regarding *Life expectancy at birth* (indicator code 90366), by local authority (area code 101) and specifically for Liverpool (ONS code E08000012):
+
+```{r, echo=T, eval=T}
+fingertips_data(IndicatorID = 90366, AreaTypeID = 101, AreaCode = "E08000012")
+```
+
+And voilà, we now have download life expectancy at birth data for Liverpool directly into R, without having to go the Fingertips site, find and data, download it and then import them into R. 
+
+On a final note, I should mention here that up until now we haven't really saved any datasets in our working environment. We can easily do that by assigning the table with the data to a variable, such as `my_liverpool_data`, like so:
+
+```{r, echo=T, eval=FALSE}
+my_liverpool_data <- fingertips_data(IndicatorID = 90366, AreaTypeID = 101, AreaCode = "E08000012")
+```
+
+But you shouldn't worry about that at this point, you will get more experience using R during these sessions.

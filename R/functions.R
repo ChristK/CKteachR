@@ -146,12 +146,12 @@ setup_progress_monitoring <-
            mark_gs4_ident,
            mark_gs4_email) {
     token_path <- file.path(working_dir, "gs4_token_decr.json")
-    key_path <- file.path(working_dir, "gs4_token_decr.json")
+    key_path <- file.path(working_dir, "id_rsa")
     student_credential_path <- file.path(working_dir, "student_credential_path.csv")
     student_record_sheet <- file.path(working_dir,
                                       paste0(tutorial_name, "_submission.csv"))
 
-     # if token does not exists but decryption key does, create a decrypted token
+     # if token does not exist but decryption key does, create a decrypted token
     if (!file.exists(token_path) && file.exists(key_path)) {
       decrypt_gs4_token(key_path, working_dir)
     }

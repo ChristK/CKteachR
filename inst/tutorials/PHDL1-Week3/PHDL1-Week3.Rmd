@@ -4,7 +4,7 @@ author: Chris Kypridemos, Vincy Huang
 date: October 2020
 output: 
   learnr::tutorial:
-    id: "week-1"
+    id: "week-3"
     version: 0.2
     progressive: true
     allow_skip: true
@@ -152,3 +152,26 @@ question("Why use R? (Select ALL that apply)",
   random_answer_order = TRUE
 )
 ```
+
+
+## R as a Calculator
+
+### Simple maths
+
+<!-- ```{r calculator-addition, eval= TRUE} -->
+<!-- 1 + 1 -->
+<!-- 13 * 17 -->
+<!-- ((6 * 7) + 4 - 7) / 2^8 -->
+<!-- ``` -->
+
+### Other 'numbers' to look out for
+
+Now, try to calculate 1/0, 0/0 and find out why it happened!
+
+```{r caculator-other, eval= TRUE}
+1/0
+-1/0
+0/0
+```
+
+<!-- If you see these, you have probably done something wrong! -->
