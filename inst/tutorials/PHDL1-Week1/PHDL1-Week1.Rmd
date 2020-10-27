@@ -24,6 +24,7 @@ library(learnr)
 library(submitr)
 library(googlesheets4)
 library(gradethis)
+library(CKteachR)
 knitr::opts_chunk$set(echo = FALSE)
 learnr::tutorial_options(
   exercise.timelimit = 60, 
@@ -54,7 +55,7 @@ submitr::shiny_logic(input, output, session, out$vfun, out$storage_actions)
 
 ## Getting ready to use R
 
-### Logistics
+### Preamble
 
 -   Learning R is like learning a foreign language. It may seem hard at first,
     but in time allows you to immerse into a new exciting culture.
@@ -152,3 +153,25 @@ question("Why use R? (Select ALL that apply)",
   random_answer_order = TRUE
 )
 ```
+
+## Getting help with R
+
+### Access to R documentation
+
+- All R functions have documentation that is in most cases excellent
+
+- From within R you can access the documentation of a function by typing `?function` where function is the function name
+
+- From within RStudio access the documentation of a function by using the help pane
+
+- All the above are useful for functions that are in R packages that you have installed already. To access the documentation from any function available to R, even from packaged you have not installed, you can use [Rdocumentation.org](https://www.Rdocumentation.org/)
+
+### Search the internet for R topics
+
+- R has an unfortunate name that confuses many search engines
+
+- Of course you can keep using your favourite search engine and evenually may learn and prioritise sites about the R language
+
+- Another option is [Rseek.org](https://Rseek.org) that is a topic-specific search engine about R topics and issues
+
+
