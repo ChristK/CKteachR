@@ -24,6 +24,7 @@ library(learnr)
 library(submitr)
 library(googlesheets4)
 library(gradethis)
+library(CKteachR)
 knitr::opts_chunk$set(echo = FALSE)
 learnr::tutorial_options(
   exercise.timelimit = 60, 
@@ -43,7 +44,7 @@ out <-
     rstudioapi::getActiveProject(),
     "PHDL1_week1",
     "15oXGGq0fgFL7kN3ZCcouhJhnIY_wJCDj3tPu6nyug-g",
-    "1niWt2nCC3cgKtMEpowFVTTlVHBCbVpJl1WK-uR4r6BU", # week 1 spreadsheet
+    "122eUZo4Q3VJ3hTy9ySoOTITPfNkrb1-p4nNeQm78w5I", # week 3 spreadsheet
     "UoL.MPH.datalab@gmail.com"
   )
 
@@ -52,126 +53,355 @@ submitr::shiny_logic(input, output, session, out$vfun, out$storage_actions)
 
 <!--End of submitr setup-->
 
-## Getting ready to use R
+## R as a calculator
 
-### Logistics
+### Remember to login!
 
--   Learning R is like learning a foreign language. It may seem hard at first,
-    but in time allows you to immerse into a new exciting culture.
+Using your name and your password in the relevant boxes at the top of the page 
 
--   If you feel that things don't make sense, don't worry. Everyone who uses R
-    (or any other programming language) has been there, and we still do
-    sometimes. Just ask your R-buddy or ask me!
+### Simple maths
+You can use R as a calculator for example you can type `2 + 2` and get `4`
 
--   During the PH data lab session, feel free to interrupt me at any time.
+```{r calculator-addition1, echo=TRUE}
+2 + 2
+```
 
--   Some of the examples and exercises in this tutorial are inspired by a
-    tutorial by [Graeme L. Hickey](https://www.glhickey.com/)
+Use the box below to calculate the product of 6 and 7. 
 
-### What is R?
+```{r calculator-multiplication1, exercise=TRUE, exercise.cap="Graded", exercise.lines=7}
 
-Derives from a proprietary software package called 'S-Plus'
 
--   "R is a free software programming language and software environment for
-    statistical computing and graphics" Wikipedia (2014)
+```
 
--   The "lingua franca of data analysts" The New York Times (2009)
+<div id="calculator-multiplication1-hint">
+**Hint:** We need to calculate 6 times 7. Therefore `6 * 7` is the correct answer. 
+</div>
 
--   Used worldwide by epidemiologists, bioinformaticians, data scientists,
-    high-level statisticians, app developers, . . .
+```{r calculator-multiplication1-solution}
+6 * 7
+```
 
-### Why use R?
+```{r calculator-multiplication1-check}
+gradethis::grade_code(correct = "6 * 7")
+```
 
--   Keep whole analysis together (data processing, analysis, publication
-    figures, reports)
+### Using powers
 
--   Reproducible research
+- That's all good but how can I use powers? I see no way to enter a superscript. i.e. 2^2^
 
--   State of the art statistical methods are wrapped up in 'R packages'
+- You can use the special symbol `^` to denote the power. I.e `2^2` means 2^2^
 
--   It is free and open-source
+- Remember that a square root is the inverse operation to the power of 2. So to calculate $\sqrt{2}$ in R you can simply type `2^(1/2)`. Note the use of brackets! `2^1/2` gives the wrong results because R first calculates `2^1` and then divised by `2`.
 
--   It is used by many companies & institutions [including the UK
-    Government](https://dataingovernment.blog.gov.uk/2017/03/27/reproducible-analytical-pipeline/)
+- Another option to denote a square root is the function `sqrt()`. I.e. `sqrt(2)`
 
-### Objectives
+### Using mathematical expressions
 
-The primary objective is for you to be able to apply statistical functions
-available in R to your own data.
+- So now can you use R to calculate the result of $((6 * 7) + 4 - 7) / 2^8$?
+```{r zrydcewguzcaojrr, exercise=TRUE, exercise.cap="Graded", exercise.lines=7}
 
-To achieve this you should be able to:
 
--   Understand the core concepts of R and its syntax
+```
 
--   Be able to read and write data files
+<div id="zrydcewguzcaojrr-hint">
+**Hint:** All you need is to type the expression from the question into the box. 
+</div>
 
--   Be able to interrogate a dataset
-
--   Be able to use functions and options
-    <!-- - Be able to write a simple function -->
-
-### How to install R?
-
-By now you you should all have received installation instructions. You can also
-download them from the links below.
-
--   [For
-    Windows](https://u.pcloud.link/publink/show?code=XZSpMFXZLRt8rDdjvhJK5gofRP9AkymsrJik)
--   [For
-    Mac](https://u.pcloud.link/publink/show?code=XZIpMFXZzrAQ2MDDye7hpT740VSto8tpbBsy)
--   [For
-    Linux](https://u.pcloud.link/publink/show?code=XZipMFXZXz0MIzctx040fvaWIsT8tyVCdLT7)
-
-### R console
-
-R looks like this. You type commands, you press enter, and R executes the
-commands.
-
-![R on Windows 10](./images/R_screenshot.png){width=70%}
-
-### RStudio
-
-RStudio is an integrated development environment (IDE) for R. That means that
-RStudio makes the experience working with R more comfortable and speeds-up the
-development time of R projects. So, one could use R without RStudio (or any
-other IDE) and achieve the same results. Still, most likely, the work would be
-more time-consuming and less enjoyable.
-
-We will deep into Rstudio in the coming weeks.
-
-### Why use R?
-
-```{r why-r, echo=FALSE}
-question("Why use R? (Select ALL that apply)",
-  answer("Allows reproducible research", correct = TRUE),
-  answer("Free & open-source", correct = TRUE),
-  answer("State of the art statistical methods", correct = TRUE),
-  answer("To complicate our lifes", message = "It may feel that is too complicated in the beginning, but eventually the experience becomes smoother."),
-  incorrect = "Incorrect. We use R because it offers state of the art statistical methods, it is free, and allows reproducible research.",
-  allow_retry = TRUE,
-  random_answer_order = TRUE
+```{r zrydcewguzcaojrr-check}
+# check code
+gradethis::grade_result(
+  fail_if( ~ !all.equal(.result,
+                        ((6 * 7) + 4 - 7) / 2^8),
+           gradethis::random_encourage()),
+  pass_if(~ TRUE, gradethis::random_praise()),
+  glue_correct = "{.message}"
 )
 ```
 
 
-## R as a Calculator
-
-### Simple maths
-
-<!-- ```{r calculator-addition, eval= TRUE} -->
-<!-- 1 + 1 -->
-<!-- 13 * 17 -->
-<!-- ((6 * 7) + 4 - 7) / 2^8 -->
-<!-- ``` -->
-
 ### Other 'numbers' to look out for
 
-Now, try to calculate 1/0, 0/0 and find out why it happened!
+- R uses some special 'numbers' to represent infinity or 'undefined'
 
-```{r caculator-other, eval= TRUE}
-1/0
--1/0
-0/0
+- Now, try to calculate 1/0, -1/0, and 0/0 and find out what is the result
+
+```{r caculator-other, exercise = TRUE, exercise.lines=7}
+
+
 ```
 
-<!-- If you see these, you have probably done something wrong! -->
+## Assignment
+
+### Assignment operators
+
+-   We can tell R to remember things so that we can call them later
+-   We do this using either assignment operators `=` or `<-` to assign a value to a variable. I.e. `var <- 42` creates a variable with name 'var' that holds the value 42.
+
+```{r assignment-operator, echo=FALSE}
+learnr::question(
+  "Which of these are assignment operations? (Select ALL that apply)",
+  answer('x == 6', correct = FALSE),
+  answer('x <- 6', correct = TRUE),
+  answer('x = 6',  correct = TRUE),
+  incorrect = "Give it another try. We use `=` or `<-` as assignment operators",
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  options = list(foobar = "Flag")
+)
+```
+
+### Things to remember when naming variables
+
+- Naming variables is a hard task. Ideally, variable names should be short to type easily, but informative so your code is more legible
+
+- Remember R is CASE SENSITIVE! `John` is not the same as `john`  
+
+- Variable names cannot begin with numbers or include spaces
+
+- Try assign 9 to a variable named 3john and see what happens
+
+```{r var-name, exercise = TRUE, exercise.lines=3}
+
+```
+
+### Variables task
+
+What do you think the following lines of R code will output at the end?
+
+```{r echo=TRUE}
+x <- 2
+x <- x + 5 
+```
+
+```{r assignment-test, echo=FALSE}
+learnr::question("What is the value of x?",
+         answer("x5", correct = FALSE),
+         answer("7", correct = TRUE, message = gradethis::random_praise()),
+         answer("0",  correct = FALSE),
+         allow_retry = TRUE,
+         random_answer_order = TRUE
+)
+```
+
+## Vectors
+
+We often have more than a single number, which we combine into a *vector* using
+the function `c()`, e.g.
+
+```{r vectors, echo=TRUE}
+c(184, 162, 145, 200, 178, 154, 172, 142)
+```
+As before with single values, we can assign the vector to a variable
+
+```{r vectors2, echo=TRUE}
+heights_cm <- c(184, 162, 145, 200, 178, 154, 172, 142)
+heights_cm 
+```
+
+Many operations in R are *vectorised*, meaning they apply to all elements of a vector, e.g.
+
+```{r vectors3, echo=TRUE}
+heights_m <- heights_cm / 100 # convert cm to m
+heights_m 
+```
+Notice that every element of the vector was divided by 100!
+
+## Selection
+
+### Syntax
+
+-   We might want to select the 5-th value from a vector
+-   We use square brackets for this, e.g.
+
+```{r vectors4, echo=TRUE}
+heights_m[5]
+```
+- What happens when we request an element beyond the length of the vector? I.e. `heights_m` has a length of 8. What will happen if we request the 10-th element that doesn't really exists?
+
+```{r vectors5, echo=TRUE}
+heights_m[10]
+```
+
+- Note R returns `NA` which denotes a missing value
+
+### Selection task 1
+
+```{r selection-quiz}
+learnr::question(
+  "How do you select  the 7-th value from the vector heights?",
+  answer("heights(7)", correct = FALSE, message = gradethis::random_encourage()),
+  answer("heights[7]", correct = TRUE, message = gradethis::random_praise()),
+  answer("heights([7])",  correct = FALSE, message = gradethis::random_encourage()),
+  incorrect = "Give it another try. We use square brackets to select from a vector",
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  options = list(foobar = "Flag")
+)
+
+```
+
+### Selection task 2
+
+How to select 1-st, 3-rd and 5-th element from the vector heights_m?
+
+```{r bcxvsdeyonyvhjsf,  exercise=TRUE, exercise.cap="Graded", exercise.lines=7}
+
+
+```
+
+<div id="bcxvsdeyonyvhjsf-hint">
+**Hint:** Remember that the 1-st, 3-rd and 5-th element is the vector `c(1, 3, 5)` 
+</div>
+
+```{r bcxvsdeyonyvhjsf-solution}
+# solution code
+heights_m[c(1, 3, 5)]
+```
+
+```{r bcxvsdeyonyvhjsf-check}
+# check code
+gradethis::grade_code()
+```
+
+## Logic
+
+### Simple logical statements
+
+Boils down to something being `TRUE` or `FALSE`\
+`x > y`  asks: is x greater than y?\
+`x < y`  asks: is x less than y?\
+`x == y` asks: is x equal to y?\
+`x >= y` asks: is x greater than or equal to y\
+`x <= y` asks: is x less than or equal to y?\
+
+Note the different meaning of `=` and `==`!!! The first assigns, the second checks equality
+
+Basic examples:
+
+```{r logic-1, echo = TRUE}
+5 < 10
+3 > 5
+```
+
+### More logic operators
+
+There are three useful operators that help us combine simple logical statements\
+`&` means 'AND'. It returns `TRUE` only if the expression in both sides is `TRUE`\
+`|` means 'OR'. It returns `TRUE` if any of the expression in both sides is `TRUE`\
+`!` means 'NOT'. It converts `TRUE` to `FALSE` and vice versa\
+
+Using these symbols we can combine logical statements, for example:
+
+```{r logic-combine, echo=TRUE}
+(5 < 10) & (3 < 5)
+(1 > 2) | (4 > 3)
+!(5 < 10)
+5 != 10 # same as !(5 == 10)
+```
+
+### Logic task
+```{r logic-combine1-quiz}
+learnr::question(
+  "Evaluate the logical statement `(1 < 2) & (10 < 9)`",
+  answer("TRUE", correct = FALSE, message = gradethis::random_encourage()),
+  answer("FALSE", correct = TRUE, message = gradethis::random_praise()),
+  incorrect = "Not quite right...",
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  options = list(foobar = "Flag")
+)
+```
+
+```{r logic-combine2-quiz}
+learnr::question(
+  "Evaluate the logical statement `(1 < 2) | (10 < 9)`",
+  answer("FALSE", correct = FALSE, message = gradethis::random_encourage()),
+  answer("TRUE", correct = TRUE, message = gradethis::random_praise()),
+  incorrect = "Not quite right...",
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  options = list(foobar = "Flag")
+)
+
+```
+
+```{r logic-combine3-quiz}
+learnr::question(
+  "Evaluate the logical statement `!(1 < 2)`",
+  answer("TRUE", correct = FALSE, message = gradethis::random_encourage()),
+  answer("FALSE", correct = TRUE, message = gradethis::random_praise()),
+  incorrect = "Not quite right...",
+  random_answer_order = TRUE,
+  allow_retry = TRUE,
+  options = list(foobar = "Flag")
+)
+
+```
+
+
+### Logic & selection
+We can use a *logical vector* to pick out elements of a vector. Let's try first with a
+logical vector that is the same length as the vector we want to partition.
+
+```{r, echo=TRUE}
+heights_cm # to remind us its content
+logic_vec <- c(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE)
+heights_cm[logic_vec]
+```
+
+We can simplify this further. Notice from above that our goal is to get every other element of the vector. When R uses vectorised operations and the vectors have unequal lengths, it silently *recycles* the shorter vector(s) to the length of the longest vector. For example:
+
+```{r, echo=TRUE}
+logic_vec2 <- c(TRUE, FALSE) 
+heights_cm[logic_vec2] # same as before because of recycling
+```
+R silently recycles `logic_vec2` internaly to reach the length of `heights_cm` by repeating `logic_vec2`. So `logic_vec2` silently becomes `c(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE)` when interacts with `heights_cm`.
+
+### Logic & selection (c'nued)
+
+How to extract heights greater than 160cm?
+
+Remember that `heights_cm > 160` returns a logical vector
+
+```{r echo=TRUE}
+ind <- heights_cm > 160
+ind
+```
+
+So then we can simply do
+```{r echo=TRUE}
+heights_cm[ind]
+```
+
+Or we can combine the 3 lines above into 1
+
+```{r echo=TRUE}
+heights_cm[heights_cm > 160]
+```
+
+
+### Logic & selection task
+
+Can you extract heights less than or equal to 180cm in one line?
+
+```{r tllsfpaflolywmon, exercise=TRUE, exercise.cap="Graded", exercise.lines=1}
+
+
+```
+
+<div id="tllsfpaflolywmon-hint">
+**Hint:** Try to modify the code from the previous example `heights_cm[heights_cm > 160]` 
+</div>
+
+```{r tllsfpaflolywmon-solution}
+heights_cm[heights_cm <= 180]
+```
+
+```{r tllsfpaflolywmon-check}
+# check code
+gradethis::grade_code()
+```
+
+### Remember to submit your answers!
+
+Click the submit button at the top of the page
