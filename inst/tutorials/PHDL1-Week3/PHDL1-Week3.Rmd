@@ -30,6 +30,8 @@ learnr::tutorial_options(
   exercise.timelimit = 60, 
   exercise.checker = 
   gradethis::grade_learnr)
+heights_cm <- c(184, 162, 145, 200, 178, 154, 172, 142)
+heights_m <- heights_cm / 100 # convert cm to m
 ```
 
 ```{r}
