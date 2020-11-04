@@ -25,8 +25,6 @@ library(submitr)
 library(googlesheets4)
 library(gradethis)
 library(data.table)
-.datatable.aware = TRUE
-options(datatable.verbose=TRUE)
 knitr::opts_chunk$set(echo = FALSE)
 learnr::tutorial_options(
   exercise.timelimit = 60, 
@@ -48,9 +46,9 @@ submitr::login_controls()
 options(tutorial.storage = "none")
 
 out <-
-  setup_progress_monitoring(
+  CKteachR::setup_progress_monitoring(
     rstudioapi::getActiveProject(),
-    "PHDL1_week1",
+    "PHDL1_week4",
     "15oXGGq0fgFL7kN3ZCcouhJhnIY_wJCDj3tPu6nyug-g",
     "10m96pA3vqzGTQyoCrjIOLMPLa2_MNrcwHqE25hSKnFo", # week 4 spreadsheet
     "UoL.MPH.datalab@gmail.com"

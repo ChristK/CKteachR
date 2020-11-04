@@ -44,7 +44,7 @@ options(tutorial.storage = "none")
 out <-
   setup_progress_monitoring(
     rstudioapi::getActiveProject(),
-    "PHDL1_week1",
+    "PHDL1_week3",
     "15oXGGq0fgFL7kN3ZCcouhJhnIY_wJCDj3tPu6nyug-g",
     "122eUZo4Q3VJ3hTy9ySoOTITPfNkrb1-p4nNeQm78w5I", # week 3 spreadsheet
     "UoL.MPH.datalab@gmail.com"
