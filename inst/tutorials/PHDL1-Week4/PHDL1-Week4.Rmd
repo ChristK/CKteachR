@@ -270,7 +270,7 @@ Similarly, we can subset those less than 40. However in `data.table` format
 ```{r, echo=TRUE}
 people[age < 40] # same as people[age < 40, ]
 ```
-Note above that the coma after the subset condition can be skipped. Therefore we will skip the coma from now on.
+Note above that the comma after the subset condition can be skipped. Therefore we will skip the comma from now on.
 
 
 ### Subsetting rows task
@@ -415,7 +415,7 @@ Another type of subsetting involves subsetting variables (columns) from a table.
 Suppose we only need to output a table that only list the areas and the latest, 2018 values only. The first way is to use the name of the variables we want to keep:
 
 ```{r echo=TRUE}
-# Note the coma before we specify the columns
+# Note the comma before we specify the columns
 alcohol_mort[, c("Area", "Alcohol_mort_2018")]  
 ```
 
