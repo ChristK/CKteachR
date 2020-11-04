@@ -263,14 +263,12 @@ people
 Suppose our condition is to subset all persons that are more than 40 years old. since we want to subset the rows, then we should write something like `people[age > 40, ]`. 
 
 ```{r, echo=TRUE}
-# subset data based on age
-people[age > 40, ]
+people[age > 40, ] # subset data based on age
 ```
 
 Similarly, we can subset those less than 40. However in `data.table` format 
 
 ```{r, echo=TRUE}
-# subset data based on age
 people[age < 40] # same as people[age < 40, ]
 ```
 Note above that the coma after the subset condition can be skipped. Therefore we will skip the coma from now on.

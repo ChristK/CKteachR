@@ -25,4 +25,4 @@ Imports:
     rstudioapi (>= 0.11)
 Remotes: 
     christk/submitr,
-    rstudio-education/gradethis,
+    rstudio-education/gradethis
