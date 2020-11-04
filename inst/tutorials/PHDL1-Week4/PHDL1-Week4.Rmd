@@ -93,7 +93,7 @@ The following sections in the documentation provide further details on how the f
 ### In practice
 Let's create a vector `v` to use in this example and the use `sum` to calculate the sum of it's elements.
 
-```{r echo=TRUE}
+```{r, echo=TRUE}
 v <- c(1, 2, 3)
 
 sum(v) # Note we can skip the 2nd argument na.rm
@@ -102,7 +102,7 @@ Note we can skip the 2nd argument because it has a default value. Internally R c
 
 Now let's create another vector `x` with some missing values and see what happens.
 
-```{r echo=TRUE}
+```{r, echo=TRUE}
 x <- c(1, 2, NA, 3)
 
 sum(x)
@@ -133,7 +133,7 @@ Note that we surround them with backticks because their names are special charac
 ### Task
 Can you guess what would be the result of `sum(c(12.3^4, 1, -3, NA, 2^(1/3)))`?
 
-```{r functions, echo=FALSE}
+```{r, functions, echo=FALSE}
 question("",
   answer("NA", correct = TRUE),
   answer("22887.92", correct = FALSE),
@@ -146,6 +146,8 @@ question("",
 ```
 
 ## R objects
+
+### Introduction
 
 As with functions, we have used R objects in the previous weeks. All the variables and vectors we have created so far are objects. Even functions are objects!
 
@@ -249,7 +251,7 @@ The best way to explain all the different ways we can subset data using operator
 
 Consider the following table with individuals and their age:
 
-```{r}
+```{r, echo=TRUE}
 # Create the table
 people <- data.table(name = c("Mary", "John", "Alex", "Chris", "Emily"),
                   age = c(23,54,35,19,42))
@@ -260,14 +262,14 @@ people
 
 Suppose our condition is to subset all persons that are more than 40 years old. since we want to subset the rows, then we should write something like `people[age > 40, ]`. 
 
-```{r}
+```{r, echo=TRUE}
 # subset data based on age
 people[age > 40, ]
 ```
 
 Similarly, we can subset those less than 40. However in `data.table` format 
 
-```{r}
+```{r, echo=TRUE}
 # subset data based on age
 people[age < 40] # same as people[age < 40, ]
 ```
@@ -300,7 +302,7 @@ gradethis::grade_code()
 
 We can also subset those within a specific age group. For this we need to combine two conditions. Suppose we want those between _20-35_ years of age, inclusive. We can use the 'and' operator, which is defined in R using the `&` character:
 
-```{r}
+```{r, echo=TRUE}
 # subset data based on two age conditions
 people[age >= 20 & age <= 35]
 ```
@@ -309,13 +311,13 @@ Note that we use "less/greater than or equal" since our condition is inclusive -
 
 `data.table` has the function `between()` which we can use in this situation. For example,
 
-```{r}
+```{r, echo=TRUE}
 people[between(age, 20, 35)]
 ```
 
 We can also subset those within two groups using an "OR" operator. In R this is defined using the `|` symbol. Suppose in this example that we want to subset those less than 20 years of age and those more than 35:
 
-```{r}
+```{r, echo=TRUE}
 # subset data based on two age conditions
 people[age < 20 | age > 35]
 
@@ -325,7 +327,7 @@ people[age < 20 | age > 35]
 
 For this example we will create a sample dataset regarding alcohol-related mortality rate (deaths per 100,000) for 2017 and 2018, by Local Authority:
 
-```{r}
+```{r, echo=TRUE}
 # Load library
 library(data.table)
 
@@ -339,7 +341,7 @@ alcohol_mort
 
 Suppose we want to extract data only for Liverpool. For this we can use a simple operator, `==`, like so:
 
-```{r}
+```{r, echo=TRUE}
 # subset data only for Liverpool
 alcohol_mort[Area == "Liverpool"]
 ```
@@ -392,7 +394,6 @@ gradethis::grade_code()
 
 Suppose we want now to subset those areas that have seen an increase in mortality rate between 2017 and 2018 in the dataset `alcohol_mort`. How can we do this?
 
-
 ```{r tllsfpaflol, exercise=TRUE, exercise.cap="Graded", exercise.lines=5}
 
 
@@ -402,13 +403,12 @@ Suppose we want now to subset those areas that have seen an increase in mortalit
 **Hint:** We need the areas where alcohol-related mortality rate in 2018 was *higher* than in 2017
 </div>
 
-```{r tllsfpaflol-solution}
-alcohol_mort[Alcohol_mort_2018 > Alcohol_mort_2017]
-```
-
 ```{r tllsfpaflol-check}
-# check code
-gradethis::grade_code()
+gradethis::grade_result(
+  fail_if( ~ !all.equal(.result, alcohol_mort[Alcohol_mort_2018 > Alcohol_mort_2017]), gradethis::random_encourage()),
+  pass_if(~ TRUE, gradethis::random_praise()),
+  glue_correct = "{.message}"
+)
 ```
 
 ## Subsetting columns
