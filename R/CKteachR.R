@@ -26,4 +26,7 @@
 #
 #' @import data.table
 
+
+.datatable.aware = TRUE
+
 NULL
