@@ -25,7 +25,6 @@ library(submitr)
 library(googlesheets4)
 library(gradethis)
 library(data.table)
-library(CKteachR)
 knitr::opts_chunk$set(echo = FALSE)
 learnr::tutorial_options(
   exercise.timelimit = 60, 
