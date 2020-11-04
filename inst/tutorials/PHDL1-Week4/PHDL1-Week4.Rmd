@@ -1,7 +1,7 @@
 ---
 title: Introduction to R!
 author: Chris Kypridemos, Vincy Huang
-date: October 2020
+date: November 2020
 output: 
   learnr::tutorial:
     id: "week-3"
