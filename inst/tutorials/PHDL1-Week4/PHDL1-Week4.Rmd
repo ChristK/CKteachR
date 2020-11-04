@@ -1,0 +1,455 @@
+---
+title: Introduction to R!
+author: Chris Kypridemos, Vincy Huang
+date: October 2020
+output: 
+  learnr::tutorial:
+    id: "week-3"
+    version: 0.2
+    progressive: true
+    allow_skip: true
+runtime: shiny_prerendered
+description: "Welcome to learnr tutorials!"
+---
+
+```{=html}
+<style type="text/css">
+  body{
+  font-size: 12pt;
+}
+</style>
+```
+```{r setup, include=FALSE}
+library(learnr)
+library(submitr)
+library(googlesheets4)
+library(gradethis)
+library(data.table)
+library(CKteachR)
+knitr::opts_chunk$set(echo = FALSE)
+learnr::tutorial_options(
+  exercise.timelimit = 60, 
+  exercise.checker = 
+  gradethis::grade_learnr)
+people <- data.table(name = c("Mary", "John", "Alex", "Chris", "Emily"),
+                  age = c(23,54,35,19,42))
+
+alcohol_mort <- data.table(Area = c("Liverpool", "Wirral", "St. Helens", "Knowsley", "Cheshire East", "Cheshire West and Chester"),
+                  Alcohol_mort_2017 = c(62.28, 57.86, 56.03, 56.97, 44.91, 44.96),
+                  Alcohol_mort_2018 = c(67.01, 58.86, 59.08, 56.47, 45.42, 48.73))
+```
+
+```{r}
+submitr::login_controls()
+```
+
+```{r context = "server", echo = FALSE}
+options(tutorial.storage = "none")
+
+out <-
+  setup_progress_monitoring(
+    rstudioapi::getActiveProject(),
+    "PHDL1_week1",
+    "15oXGGq0fgFL7kN3ZCcouhJhnIY_wJCDj3tPu6nyug-g",
+    "10m96pA3vqzGTQyoCrjIOLMPLa2_MNrcwHqE25hSKnFo", # week 4 spreadsheet
+    "UoL.MPH.datalab@gmail.com"
+  )
+
+submitr::shiny_logic(input, output, session, out$vfun, out$storage_actions)
+```
+
+<!--End of submitr setup-->
+
+## R functions
+
+### Remember to login!
+
+Using your name and your password in the relevant boxes at the top of the page 
+
+### Anatomy of a function
+> “To understand computations in R, two slogans are helpful:\
+> - Everything that exists is an object.\
+> - Everything that happens is a function call.\"
+> — John Chambers
+
+This section gives a brief introduction on how to use functions in R. In their simplest form, functions have conceptually three parts: inputs, process, and outputs. A function take some inputs, do something to them (the process part), and returns the result (the output).
+
+You have used functions already, sometimes more obvious than others. Let's start from an obvious one. This week we have used the function `sum()` to add up the elements of a vector. One thing to notice is that functions are always followed by brackets. The brackets contain the inputs of the function, which are usually called the *arguments* of the function.  
+
+It is a good practice every time you come across a new function to read its documentation. You can do that directly from RStudio user interface, or from R console type `?sum` and the documentation will appear in the relevant RStudio pane (bottom-right by default). 
+
+Please familiarise yourself with the documentation for `sum()` before you continue to the the next section.  
+
+### How to read the documentation
+The documentation of R functions follows a similar pattern irrespective of the function. It presents the the 'big picture' at the very top and provides all the necessary details, often with examples, next. 
+
+At the very top there is the package the function belong to (i.e. `sum {base}`), then a one-liner description of the function, followed by a more verbose description. This is followed by the 'Usage' section that provides a reference of how to use the function. Using `sum()` as an example we see that the usage of sum is `sum(..., na.rm = FALSE)`. We can immediately see that the function expects two arguments (separated by `,`). The first one is `...` (called the ellipsis) and is an unnamed special argument to indicate the the function expects an arbitrary number of objects as its first input. The second argument is more typical. It has a name, `na.rm`, and a default value that is `FALSE` and is signified by the `= FALSE`. A default value means that if you do not explicitly specify a value for this argument, the function will assume that the value of the argument  is the default one.  
+
+
+The next section is  'Arguments' that provides the description for all the arguments the function expects. Following the previews example for `sum()`, we see that `na.rm` is a logical (meaning `TRUE` or `FALSE`) and when `TRUE` the missing values  are removed. 
+
+The following sections in the documentation provide further details on how the function is used, what output it produces, examples, references, etc.
+
+### In practice
+Let's create a vector `v` to use in this example and the use `sum` to calculate the sum of it's elements.
+
+```{r echo=TRUE}
+v <- c(1, 2, 3)
+
+sum(v) # Note we can skip the 2nd argument na.rm
+```
+Note we can skip the 2nd argument because it has a default value. Internally R calls `sum(v, na.rm = FALSE)` because `na.rm` has a default value of `FALSE`
+
+Now let's create another vector `x` with some missing values and see what happens.
+
+```{r echo=TRUE}
+x <- c(1, 2, NA, 3)
+
+sum(x)
+```
+
+Whenever R is asked to do some calculations with missing values, the result is `NA`. To bypass the issue we have to apply the calculation only to the existing values. This is where the second argument becomes handy. If we type 
+
+```{r echo=TRUE}
+
+sum(x, na.rm = TRUE)
+```
+We get the answer we are looking for
+
+Note: in many cases in R we can skip the name of the arguments and only use their values in the order the arguments are defined. For example, for a function `foo()` with two named arguments, arg1 and arg2 we can write `foo(arg1 = 0, arg2 = 5)` or `foo(0, 5)`. The two are equivalent. In the second case R will infer the name of the arguments by the order their values are given. This does not apply to `sum()` because its first argument is not named.
+
+### Not so obvious functions
+We said that everything that happens in R is a function and that functions are followed by brackets. But then what about `1 + 1` or `x[2]`. In both cases something happens but it is not clear what function is called. In reality `+` and `[` are functions and can be called by the usual functional notation, although the syntax we used so far is usually preferred.
+
+```{r, echo=TRUE}
+`+`(1, 1)
+
+`[`(x, 2)
+```
+
+Note that we surround them with backticks because their names are special characters (`+(1, 1)` is not working).
+
+
+### Task
+Can you guess what would be the result of `sum(c(12.3^4, 1, -3, NA, 2^(1/3)))`?
+
+```{r functions, echo=FALSE}
+question("",
+  answer("NA", correct = TRUE),
+  answer("22887.92", correct = FALSE),
+  answer("0", correct = FALSE),
+  answer("1", correct = FALSE),
+  incorrect = "Give it another try. Look carefully at the R expression.",
+  allow_retry = TRUE,
+  random_answer_order = TRUE
+)
+```
+
+## R objects
+
+As with functions, we have used R objects in the previous weeks. All the variables and vectors we have created so far are objects. Even functions are objects!
+
+There are different types of objects in R. The different types that an object can be are called *classes*. You can use the function to `class()` on an object to get its class. I.e.
+
+```{r, echo=TRUE}
+x <- c(1, 2, 3)
+class(x)
+```
+
+Objects have different properties depending on their class. Note that some functions can operate only on objects of certain classes. Throughout the semester we will come across several different classes. This week, we will focus on objects of the class `data.table`   
+
+### Tabular data in R
+
+In most cases epidemiological datasets are in tabular format. That means they look like tables and have rows and columns. One could structure epidemiological data in a tabular format in several ways. One seems to be the most appropriate for analysis most of the times. This is when each row is an observation and each measured variable is a column.  
+
+R has several classes to represent tabular data natively. One of them, `data.frame`, allows columns to be of different types. For examples, you can mix columns that are numeric with columns that are strings (a sequence of characters).
+
+```{r, echo=TRUE}
+df <- data.frame("name" = c("John", "Mairy", "Anna"),
+                 "age"  = c(34, 24, 28)) # Create a data.frame
+df # Inspect the dataset 
+```
+
+## data.table objects
+
+### data.table introduction
+
+`data.table` expands the `data.frame` in R. The key benefits of using `data.table` is its intuitive syntax, and its performance. Speed becomes increasingly important as the size of the dataset increases. 
+
+You can create a `data.table` similarly to a `data.frame`. Remember to load the `data.table` package first
+
+```{r, echo=TRUE, results='asis'}
+library(data.table)
+dt <- data.table("name" = c("John", "Mairy", "Anna"),
+                 "age"  = c(34, 24, 28)) # Create a data.frame
+dt # Inspect the dataset 
+```
+Many times we have a `data.frame` and we would like to convert it to a `data.table`. Let's do that for the `df` `data.frame` we created earlier. Note that we assigned to a new object named `dt2` 
+
+```{r, echo=TRUE}
+dt2 <- as.data.table(df)
+class(dt2)
+```
+
+Alternatively we can use the function `setDT()`
+
+```{r, echo=TRUE}
+setDT(df)
+class(df)
+```
+Note that with `setDT` we do not need to assign to a new object. It converts the original data.frame which is more efficient.
+
+### Subsetting data using `data.table`
+
+A very basic but extremely important task when dealing with data in a table is to subset data based on a specific condition. Subsetting data is very useful when we want to analyse only part of the data. 'Subsetting' is a statistical term which relates to the act of extracting a smaller a group of elements that is part of a larger group for analysis. In the case of data tables, subsetting can be seen as extracting specific rows (observations) from a table, or specific columns (variables), or both, based on a set of criteria. 
+
+
+### Subsetting by specifying rows and columns
+
+Generally speaking, a table is defined as `table[row, column]` and so `table[3,2]` would output the value in the third row and the second column of the table:
+
+```{r, echo=TRUE, results='asis'}
+# Create the table
+mytable <- data.table(Var1 = c(1, 2, 3), Var2 = c("A", "B", "C"))
+# View the table
+mytable
+```
+```{r, echo=TRUE, results='asis'}
+# Subset a cell
+mytable[3, 2]
+```
+
+
+```{r subsetting1-quiz}
+learnr::question(
+  "What will mytable[2, 1] return?",
+  answer("2", correct = TRUE, message = gradethis::random_praise()),
+  answer("B", correct = FALSE, message = gradethis::random_encourage()),
+  answer("C", correct = FALSE, message = gradethis::random_encourage()),
+  answer("1", correct = FALSE, message = gradethis::random_encourage()),
+  incorrect = "Not quite right...",
+  random_answer_order = TRUE,
+  allow_retry = TRUE
+)
+
+```
+
+### Subsetting using operators
+
+Usually however, we want to subset data based on a condition, e.g. subset from a list of patients those that have a specific illness, those that are above the age of 75 etc. We can define _conditions_ using operators.
+
+As we've learned last week, subsetting in R usually involves the name of the variable followed by`[_condition_]`. These conditions can commonly be written using simple operators such as equal `==`, greater than `>`, less that `<`, or equal or less than `=<`, etc. The library `data.table` makes these basic functions a little bit easier to write so we will focus on them; however the basic principles still apply. Data tables are also data frames and functions that work with `data.frame` also work with `data.table`. 
+
+
+The best way to explain all the different ways we can subset data using operators, without going into much detail, is through a few examples.
+
+## Subsetting rows
+
+### Example 1
+
+Consider the following table with individuals and their age:
+
+```{r}
+# Create the table
+people <- data.table(name = c("Mary", "John", "Alex", "Chris", "Emily"),
+                  age = c(23,54,35,19,42))
+# View the table
+people
+```
+### Example 1 (c'nued)
+
+Suppose our condition is to subset all persons that are more than 40 years old. since we want to subset the rows, then we should write something like `people[age > 40, ]`. 
+
+```{r}
+# subset data based on age
+people[age > 40, ]
+```
+
+Similarly, we can subset those less than 40. However in `data.table` format 
+
+```{r}
+# subset data based on age
+people[age < 40] # same as people[age < 40, ]
+```
+Note above that the coma after the subset condition can be skipped. Therefore we will skip the coma from now on.
+
+
+### Subsetting rows task
+
+Can you select people that their age is exactly 54 years in the dataset `people`?
+
+```{r tllsfpaflolywmon, exercise=TRUE, exercise.cap="Graded", exercise.lines=5}
+
+
+```
+
+<div id="tllsfpaflolywmon-hint">
+**Hint:** We can also subset those with a specific age using the equal `==` operator
+</div>
+
+```{r tllsfpaflolywmon-solution}
+people[age == 54]
+```
+
+```{r tllsfpaflolywmon-check}
+# check code
+gradethis::grade_code()
+```
+
+### Subsetting rows (c'nued)
+
+We can also subset those within a specific age group. For this we need to combine two conditions. Suppose we want those between _20-35_ years of age, inclusive. We can use the 'and' operator, which is defined in R using the `&` character:
+
+```{r}
+# subset data based on two age conditions
+people[age >= 20 & age <= 35]
+```
+
+Note that we use "less/greater than or equal" since our condition is inclusive - otherwise Alex would be outside our margins. 
+
+`data.table` has the function `between()` which we can use in this situation. For example,
+
+```{r}
+people[between(age, 20, 35)]
+```
+
+We can also subset those within two groups using an "OR" operator. In R this is defined using the `|` symbol. Suppose in this example that we want to subset those less than 20 years of age and those more than 35:
+
+```{r}
+# subset data based on two age conditions
+people[age < 20 | age > 35]
+
+```
+
+### Example 2
+
+For this example we will create a sample dataset regarding alcohol-related mortality rate (deaths per 100,000) for 2017 and 2018, by Local Authority:
+
+```{r}
+# Load library
+library(data.table)
+
+# Create the table
+alcohol_mort <- data.table(Area = c("Liverpool", "Wirral", "St. Helens", "Knowsley", "Cheshire East", "Cheshire West and Chester"),
+                  Alcohol_mort_2017 = c(62.28, 57.86, 56.03, 56.97, 44.91, 44.96),
+                  Alcohol_mort_2018 = c(67.01, 58.86, 59.08, 56.47, 45.42, 48.73))
+# View the table
+alcohol_mort
+```
+
+Suppose we want to extract data only for Liverpool. For this we can use a simple operator, `==`, like so:
+
+```{r}
+# subset data only for Liverpool
+alcohol_mort[Area == "Liverpool"]
+```
+
+### Subsetting rows task 2
+
+Can you select all areas **except** Liverpool in the dataset `alcohol_mort`?
+
+```{r tllsfpaflolywmo, exercise=TRUE, exercise.cap="Graded", exercise.lines=5}
+
+
+```
+
+<div id="tllsfpaflolywmo-hint">
+**Hint:** Remember the not equal `!=` operator
+</div>
+
+```{r tllsfpaflolywmo-solution}
+alcohol_mort[Area != "Liverpool"]
+```
+
+```{r tllsfpaflolywmo-check}
+# check code
+gradethis::grade_code()
+```
+
+### Subsetting rows task 3
+
+The national average of alcohol-related mortality rate in 2018 is *46.53* deaths per 100,000. Which Local Authorities have higher mortality rate than the national average in 2018 in the dataset `alcohol_mort`?
+
+```{r tllsfpaflolyw, exercise=TRUE, exercise.cap="Graded", exercise.lines=5}
+
+
+```
+
+<div id="tllsfpaflolyw-hint">
+**Hint:** The column named `Alcohol_mort_2018` has alcohol-related mortality rate in 2018
+</div>
+
+```{r tllsfpaflolyw-solution}
+alcohol_mort[Alcohol_mort_2018 > 46.53]
+```
+
+```{r tllsfpaflolyw-check}
+# check code
+gradethis::grade_code()
+```
+
+### Subsetting rows task 4
+
+Suppose we want now to subset those areas that have seen an increase in mortality rate between 2017 and 2018 in the dataset `alcohol_mort`. How can we do this?
+
+
+```{r tllsfpaflol, exercise=TRUE, exercise.cap="Graded", exercise.lines=5}
+
+
+```
+
+<div id="tllsfpaflol-hint">
+**Hint:** We need the areas where alcohol-related mortality rate in 2018 was *higher* than in 2017
+</div>
+
+```{r tllsfpaflol-solution}
+alcohol_mort[Alcohol_mort_2018 > Alcohol_mort_2017]
+```
+
+```{r tllsfpaflol-check}
+# check code
+gradethis::grade_code()
+```
+
+## Subsetting columns
+
+Another type of subsetting involves subsetting variables (columns) from a table. We can easily do that using two main ways: by name or by the number of the column. Consider the alcohol-related mortality table we used above. 
+
+Suppose we only need to output a table that only list the areas and the latest, 2018 values only. The first way is to use the name of the variables we want to keep:
+
+```{r echo=TRUE}
+# Note the coma before we specify the columns
+alcohol_mort[, c("Area", "Alcohol_mort_2018")]  
+```
+
+Note that if we do not want to use inverted commas for the column names, we can write
+
+```{r echo=TRUE}
+# Note the use of .() instead of c()
+alcohol_mort[, .(Area, Alcohol_mort_2018)]
+```
+
+The second way is to use numbers corresponding to the columns, as ordered. We want to keep the 1st column and the 3rd column, so we can write:
+
+```{r echo=TRUE}
+alcohol_mort[, c(1,3)]
+```
+Subsetting columns by their names is much safer and readable, hence it is preferable. 
+
+### Subsetting rows & columns
+
+Of course you can combine the syntax for row and column subsetting. For example, 
+Suppose we want now to subset those areas that have seen an increase in mortality rate between 2017 and 2018 in the dataset `alcohol_mort`, and only return the areas. We can do
+
+```{r echo=TRUE}
+alcohol_mort[Alcohol_mort_2018 > Alcohol_mort_2017, Area]
+```
+
+
+### Cheat sheet
+
+A data table "cheat sheet" is available [here](https://raw.githubusercontent.com/rstudio/cheatsheets/master/datatable.pdf). It might seem complicated now but hopefully it will make progressively more sense as you become more familiar with the syntax. The cheat sheet will be useful in a lot of ways throughout the semester, so make sure you have a copy near you.
+
+### Remember to submit your answers!
+
+Please click the submit button at the top of the page
